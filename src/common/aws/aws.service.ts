@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -7,9 +8,7 @@ import {
   PutObjectCommandInput,
   S3,
 } from '@aws-sdk/client-s3';
-
 import { v4 as uuidv4 } from 'uuid';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AwsService {
