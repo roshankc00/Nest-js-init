@@ -4,14 +4,12 @@ import { EntityManager, FindOptionsWhere, Repository } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 import { AbstractEntity } from './abstract.entity';
-import { CustomI18nService } from '../custom-layers';
 
 export abstract class AbstractRepository<T extends AbstractEntity<T>> {
   protected abstract readonly logger: Logger;
   constructor(
     public readonly entityRepository: Repository<T>,
     private readonly entityManager: EntityManager,
-    private readonly i18n: CustomI18nService,
   ) {}
 
   /**
@@ -34,9 +32,7 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
 
     if (!entity) {
       this.logger.warn('Entity not found with where', where);
-      throw new NotFoundException(
-        this.i18n.translate('response.DOCUMENT_NOT_FOUND') as string,
-      );
+      throw new NotFoundException();
     }
     return entity;
   }
@@ -55,9 +51,7 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
     const updResult = await this.entityRepository.update(where, partialEntity);
     if (!updResult.affected) {
       this.logger.warn('Document was not found with the filtered query', where);
-      throw new NotFoundException(
-        this.i18n.translate('response.DOCUMENT_NOT_FOUND') as string,
-      );
+      throw new NotFoundException();
     }
     return updResult;
   }

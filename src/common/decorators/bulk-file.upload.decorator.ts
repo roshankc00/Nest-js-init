@@ -19,7 +19,6 @@ export const BulkFilesValidation = createParamDecorator(
 
     const compressedFilesPromises = files.map(
       async (file: Express.Multer.File) => {
-        // Validate file type
         const { fileTypeFromBuffer } = await (eval(
           'import("file-type")',
         ) as Promise<typeof import('file-type')>);
